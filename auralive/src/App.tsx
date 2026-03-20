@@ -40,7 +40,9 @@ function App() {
           className="counter aspect-square w-32 flex items-center justify-center text-5xl"
           onClick={() => setCount((count) => (count) + 1)}
         >
-        {count}
+        <div key={count} className="animacao-botao">
+          {count}
+        </div>
         </button>
         <p 
         key={mensagemAtual} 
