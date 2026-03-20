@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
@@ -6,6 +6,20 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.code === 'Space') {
+        event.preventDefault() 
+        setCount((prev) => prev + 1)
+      }
+    }
+
+    window.addEventListener('keyup', handleKeyUp)
+    return () => {
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [])
 
   return (
     <>
@@ -17,11 +31,12 @@ function App() {
           <h1>AuraClicker</h1>
           <p>AuraClicker é um jogo sobre clicar pra ganhar aura</p>
         </div>
+        <h2 className="">Aura</h2>
         <button
-          className="counter"
-          onClick={() => setCount((count) => (count+1) +1)}
+          className="counter aspect-square w-32 flex items-center justify-center text-5xl"
+          onClick={() => setCount((count) => (count) + 1)}
         >
-          Your Aura is {count}
+        {count}
         </button>
       </section>
 
