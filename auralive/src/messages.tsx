@@ -11,10 +11,5 @@ const mensagens: Dictionary = { // Adicione o `=`
     500: "Agora você é um sigma."
 };
 
-function mensagemTois(count:number){
-    return mensagens[count]
-}
-
 export type {Dictionary}
 export {mensagens}
-export {mensagemTois}

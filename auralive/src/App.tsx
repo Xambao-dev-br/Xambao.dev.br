@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
 import './App.css'
-import { mensagens, mensagemTois} from './messages'
+import { mensagens} from './messages'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -25,7 +25,7 @@ function App() {
         >
           Your Aura is {count}
         </button>
-        <p>{mensagemTois(count)}</p>
+        <p>{mensagens[count]}</p>
       </section>
 
       <div className="ticks"></div>
