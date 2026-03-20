@@ -1,12 +1,25 @@
 @import "tailwindcss";
+
+@keyframes entrarSuave {
+  from {
+    opacity: 0;
+    filter: blur(1px); 
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
 .counter {
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 16px 16px;
+  border-radius: 32px;
   color: var(--accent);
   background: var(--accent-bg);
   border: 2px solid transparent;
   transition: border-color 0.3s;
-  margin-bottom: 24px;
+  margin-bottom: 0px;
+  animation: entrarSuave 1s ease-out forwards;
 
   &:hover {
     border-color: var(--accent-border);
@@ -15,6 +28,14 @@
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
+}
+
+.animacao-texto {
+  animation: entrarSuave 1s ease-out forwards;
+}
+
+.animacao-botao {
+  animation: entrarSuave 0.075s ease-out forwards;
 }
 
 .hero {

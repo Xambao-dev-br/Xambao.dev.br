@@ -1,10 +1,9 @@
-import { useState, useEffect, type JSX } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
 import './App.css'
 import { mensagens} from './messages'
-
 function App() {
   const [count, setCount] = useState(0)
 
@@ -13,6 +12,8 @@ function App() {
       if (event.code === 'Space') {
         event.preventDefault() 
         setCount((prev) => prev + 1)
+      } else if (event.code === 'Backspace') {
+        setCount((prev) => prev - 1)
       }
     }
 
@@ -21,6 +22,7 @@ function App() {
       window.removeEventListener('keyup', handleKeyUp)
     }
   }, [])
+  const mensagemAtual = mensagens[Math.floor(count / 50) * 50];
 
   return (
     <>
@@ -33,18 +35,21 @@ function App() {
           <p>AuraClicker é um jogo sobre clicar pra ganhar aura</p>
           mensagem
         </div>
-        <h2 className="">Aura</h2>
+        <p className="text-3xl font-bold text-white">Aura</p>
         <button
           className="counter aspect-square w-32 flex items-center justify-center text-5xl"
           onClick={() => setCount((count) => (count) + 1)}
         >
-        {count}
+        <div key={count} className="animacao-botao">
+          {count}
+        </div>
         </button>
-        <p>{mensagens[count]}</p>
+        <p 
+        key={mensagemAtual} 
+        className="animacao-texto mb-[24px] text-xl min-h-[26px] text-[#f0f0f0]"
+        > {mensagemAtual} </p>      
       </section>
-
       <div className="ticks"></div>
-
       <section id="next-steps">
         <div id="docs">
           <svg className="icon" role="presentation" aria-hidden="true">
