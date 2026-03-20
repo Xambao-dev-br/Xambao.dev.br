@@ -3,38 +3,10 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
 import './App.css'
+import { mensagens, mensagemTois} from './messages'
 
 function App() {
   const [count, setCount] = useState(0)
-
-  interface Dictionary {
-    [key: string]: JSX.Element;
-  } 
-  const mensagens: Dictionary = { // Adicione o `=`
-    60: <p>Você é um beta seu merda</p>,
-    120: <p>Você mogou um beta, mas não é alfa ainda</p>,
-    180: <p>Você é quase alfa, mas falta um bom caminho até lá</p>,
-    240: <p>Agora é um alfa, vai demorar pra ser sigma</p>,
-    300: <p>Quase lá...</p>,
-    500: <p>Agora você é um sigma.</p>
-  };
-
-  function mensagemTois(){
-    if(count<60){
-      return mensagens[60];
-    }else if(count<120){
-      return mensagens[120];
-    }else if(count<180){
-      return mensagens[180];
-    }else if(count<240){
-      return mensagens[240];
-    }else if(count>240 && count<500){
-      return mensagens[300]
-    }else{
-      return mensagens[500]
-    }
-  }
-
 
   return (
     <>
@@ -45,14 +17,15 @@ function App() {
         <div>
           <h1>AuraClicker</h1>
           <p>AuraClicker é um jogo sobre clicar pra ganhar aura</p>
+          mensagem
         </div>
         <button
           className="counter"
-          onClick={() => setCount((count) => (count+1) +1)}
+          onClick={() => setCount((count) => (count) +10)}
         >
           Your Aura is {count}
         </button>
-        
+        <p>{mensagemTois(count)}</p>
       </section>
 
       <div className="ticks"></div>
