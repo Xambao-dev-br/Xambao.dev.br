@@ -12,19 +12,7 @@ const mensagens: Dictionary = { // Adicione o `=`
 };
 
 function mensagemTois(count:number){
-    if(count<60){
-      return mensagens[60];
-    }else if(count<120){
-      return mensagens[120];
-    }else if(count<180){
-      return mensagens[180];
-    }else if(count<240){
-      return mensagens[240];
-    }else if(count>=240 && count<500){
-      return mensagens[300]
-    }else{
-      return mensagens[500]
-    }
+    return mensagens[count]
 }
 
 export type {Dictionary}

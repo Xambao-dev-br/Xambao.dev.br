@@ -21,7 +21,7 @@ function App() {
         </div>
         <button
           className="counter"
-          onClick={() => setCount((count) => (count) +10)}
+          onClick={() => setCount((count) => (count) +11)}
         >
           Your Aura is {count}
         </button>
