@@ -1,15 +1,14 @@
-
-interface Dictionary {
-    [key: string]: string;
-  } 
-const mensagens: Dictionary = { // Adicione o `=`
-    60: "Você é um beta seu merda",
-    120: "Você mogou um beta, mas não é alfa ainda",
-    180: "Você é quase alfa, mas falta um bom caminho até lá",
-    240: "Agora é um alfa, vai demorar pra ser sigma",
-    300: "Quase lá...",
-    500: "Agora você é um sigma."
+const mensagens: Record<number, string> = {
+    0: "Você é o maior beta de todos",
+    50: "Você é um beta enorme",
+    100: "Você deveria farmar mais aura.",
+    150: "Sem aura, você nunca será xambão.",
+    200: "Você tem mais incidentes apocar do que aura.", 
+    250: "Embora um beta, você tem um pouco de aura",
+    300: "Você mogou um beta.",
+    350: "Após moggar varios betas, você começou a sentir a aura",
+    400: "Você acordou como um alfa. Meus parabéns.",
+    450: "Você sonha de ser xambão. Você ainda tem muito a que fazer até lá.",
+    500: "Você assistiu Sexta-Feira PlayTV com seus cupinxas"
 };
-
-export type {Dictionary}
 export {mensagens}
