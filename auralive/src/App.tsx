@@ -4,7 +4,6 @@ import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
 import './App.css'
 import { mensagens} from './messages'
-
 function App() {
   const [count, setCount] = useState(0)
 
@@ -23,6 +22,7 @@ function App() {
       window.removeEventListener('keyup', handleKeyUp)
     }
   }, [])
+  const mensagemAtual = mensagens[Math.floor(count / 50) * 50];
 
   return (
     <>
@@ -42,11 +42,12 @@ function App() {
         >
         {count}
         </button>
-        <p className="mb-[24px] text-xl min-h-[26px] text-[#f0f0f0]">{mensagens[Math.floor(count / 50) * 50]}</p>
+        <p 
+        key={mensagemAtual} 
+        className="animacao-texto mb-[24px] text-xl min-h-[26px] text-[#f0f0f0]"
+        > {mensagemAtual} </p>      
       </section>
-
       <div className="ticks"></div>
-
       <section id="next-steps">
         <div id="docs">
           <svg className="icon" role="presentation" aria-hidden="true">
