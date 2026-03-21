@@ -1,19 +1,32 @@
-export let estadoPrestigio: prestige;
-export let idosas: number = 0;
-export let thomas: number = 0;
+export let estadoPrestigio: tresbagulho;
+export let idosas: tresbagulho;
+export let thomas: tresbagulho;
 export const sono = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-interface prestige {
-    level: Number;
+interface tresbagulho {
+    quantidade: Number;
     custo: Number;
     mult: Number;
 };
 
 estadoPrestigio = {
-    level: 1,
+    quantidade: 1,
     custo: 1000,
     mult: 1.15,
 };
+
+idosas = {
+    quantidade: 0,
+    custo: 100,
+    mult: 15
+};
+
+thomas = {
+    quantidade: 0,
+    custo: 10000,
+    mult: 1.15
+};
+
 
 export function calcular_prestigio() {
     console.log("Antes de algoritmo: " + +estadoPrestigio.custo);
@@ -31,13 +44,20 @@ export function rendaPassiva(
     rp_quem: number, 
     rp_quanto: number,
     setThomas: any,
-    setIdosas: any, ) {
+    setIdosas: any,
+    setAura: any,
+    aura: number, ) {
     switch (rp_comando) {
         case 1: //1 é compra que nem ta escrito ali encima
             switch (rp_quem) {
                 case 1: // 1 é idosa
-                    console.log("Idosa comprada com sucesso!");
-                    setIdosas((v: number) => v + rp_quanto)
+                    if (aura >= Math.floor(+idosas.custo + (+idosas.mult * +idosas.quantidade))) { 
+                        idosas.custo = Math.floor(+idosas.custo + (+idosas.mult * +idosas.quantidade))
+                        console.log("Preço idosa:" + +idosas.custo);
+                        setAura((prev: number) => prev - +idosas.custo);
+                        idosas.quantidade = (+idosas.quantidade + 1)
+                        setIdosas((v: number) => v + rp_quanto)
+                    }
                     break;
                 case 2: // 2 é thomas
                     console.log("Thomas comprado com sucesso!");

@@ -1,38 +1,44 @@
 import { useState, useEffect } from 'react'
-import viteLogo from './assets/vite.svg'
 import './App.css'
+import viteLogo from './assets/vite.svg'
 import {mensagens} from './messages'
-import {calcular_prestigio, estadoPrestigio, rendaPassiva} from './ferramentas'
-
+import {calcular_prestigio, estadoPrestigio, rendaPassiva, idosas as globalIdosas} from './ferramentas'
 function App() {
-  let [count, setCount] = useState(0); let [thomas, setThomas] = useState(0); let [idosas, setIdosas] = useState(0);
-
+  let [aura, setAura] = useState(0); let [thomas, setThomas] = useState(0); let [idosas, setIdosas] = useState(0);
   useEffect(() => {
     const handleKeyUp = (event: KeyboardEvent) => {
       if (event.code === 'Space') {
         event.preventDefault() 
-        setCount((prev) => prev + +estadoPrestigio.level)
+        setAura((prev) => prev + +estadoPrestigio.quantidade)
       } else if (event.code === 'Backspace') {
-        setCount((prev) => prev - +estadoPrestigio.level)
+        setAura((prev) => prev - +estadoPrestigio.quantidade)
       }
     }
-
     window.addEventListener('keyup', handleKeyUp)
+
+    let rendaPassivaTimer: number = setInterval(() => {
+      let ganho: number = (+globalIdosas.quantidade)
+      if (ganho > 0) {
+        setAura(prev => prev + ganho)
+      }
+    }, 1000);
+
     return () => {
       window.removeEventListener('keyup', handleKeyUp)
-    }
-  }, [])
-  const mensagemAtual = mensagens[Math.floor(count / 50) * 50];
+      clearInterval(rendaPassivaTimer);
+      }
+  }, [globalIdosas.quantidade]); 
+
+  const mensagemAtual = mensagens[Math.floor(aura / 50) * 50];
 
   function fazerPrestigio() {
-    if (+count >= +estadoPrestigio.custo){
+    if (+aura >= +estadoPrestigio.custo){
       calcular_prestigio();
-      setCount(0);
-      estadoPrestigio.level = (+estadoPrestigio.level + 1)
+      setAura(0);
+      estadoPrestigio.quantidade = (+estadoPrestigio.quantidade + 1)
       
     }
     }
-
   return (
     <>
       <section id="center">
@@ -47,10 +53,10 @@ function App() {
         <p className="text-3xl font-bold text-white">Aura</p>
         <button
           className="counter aspect-square w-32 flex items-center justify-center text-5xl"
-          onClick={() => setCount((count) => (count) + +estadoPrestigio.level)}
+          onClick={() => setAura((count) => (count) + +estadoPrestigio.quantidade)}
         >
-        <div key={count} className="animacao-botao">
-          {count}
+        <div key={aura} className="animacao-botao">
+          {aura}
         </div>
         </button>
         <p 
@@ -65,7 +71,7 @@ function App() {
             <use href="/icons.svg#documentation-icon"></use>
           </svg>
           <h2>Prestigio</h2>
-          <p>Nivel de prestigio atual: {+estadoPrestigio.level}</p>
+          <p>Nivel de prestigio atual: {+estadoPrestigio.quantidade}</p>
           <ul>
               <a onClick={() => fazerPrestigio()}>
                 <img className="logo" src={viteLogo} alt="" />
@@ -81,7 +87,7 @@ function App() {
           <p>Por que debugar é legal!</p>
           <ul>
             <li>
-              <a className="select-none" onClick={() => setCount((count) => (count) + 50)}>
+              <a className="select-none" onClick={() => setAura((count) => (count) + 50)}>
                 <svg
                   className="button-icon"
                   role="presentation"
@@ -93,7 +99,7 @@ function App() {
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => setCount((count) => (count) - 50)}>
+              <a className="select-none" onClick={() => setAura((count) => (count) - 50)}>
                 <svg
                   className="button-icon"
                   role="presentation"
@@ -105,7 +111,7 @@ function App() {
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => rendaPassiva(1, 1, 1, setThomas, setIdosas)} >
+              <a className="select-none" onClick={() => rendaPassiva(1, 1, 1, setThomas, setIdosas, setAura, aura)} >
                 <svg
                   className="button-icon"
                   role="presentation"
@@ -113,11 +119,11 @@ function App() {
                 >
                   <use href="/icons.svg#x-icon"></use>
                 </svg>
-                Comprar idosa {idosas}
+                Comprar idosa {idosas} {Math.floor(+globalIdosas.custo + (+globalIdosas.mult * +globalIdosas.quantidade))}
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => rendaPassiva(1, 2, 1, setThomas, setIdosas)}>
+              <a className="select-none" onClick={() => rendaPassiva(1, 2, 1, setThomas, setIdosas, setAura, aura)}>
                 <svg
                   className="button-icon"
                   role="presentation"
@@ -125,7 +131,7 @@ function App() {
                 >
                   <use href="/icons.svg#bluesky-icon"></use>
                 </svg>
-                Comprar thomas {+thomas}
+                Comprar thomas {thomas}
               </a>
             </li>
           </ul>
