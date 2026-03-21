@@ -24,7 +24,7 @@ idosas = {
 thomas = {
     quantidade: 0,
     custo: 10000,
-    mult: 1.15
+    mult: 1
 };
 
 
@@ -60,8 +60,14 @@ export function rendaPassiva(
                     }
                     break;
                 case 2: // 2 é thomas
-                    console.log("Thomas comprado com sucesso!");
-                    setThomas((v: number) => v + rp_quanto)
+                    if (aura > +thomas.custo && +thomas.quantidade < 1) {
+                        console.log("Thomas comprado por " + +thomas.custo)
+                        setAura((prev: number) => prev - +thomas.custo)
+                        thomas.quantidade = (+thomas.quantidade + 1)
+                        setThomas((v: number) => v + 1)
+
+                    }
+
                     break;
                 default:
                     return;
