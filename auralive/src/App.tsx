@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import viteLogo from './assets/vite.svg'
-// import heroImg from './assets/hero.png'
 import './App.css'
 import {mensagens} from './messages'
-import {calcular_prestigio, estadoPrestigio} from './prestigio'
+import {calcular_prestigio, estadoPrestigio, rendaPassiva} from './ferramentas'
+
 function App() {
-  let [count, setCount] = useState(0)
+  let [count, setCount] = useState(0); let [thomas, setThomas] = useState(0); let [idosas, setIdosas] = useState(0);
 
   useEffect(() => {
     const handleKeyUp = (event: KeyboardEvent) => {
@@ -32,6 +32,7 @@ function App() {
       
     }
     }
+
   return (
     <>
       <section id="center">
@@ -104,7 +105,7 @@ function App() {
               </a>
             </li>
             <li>
-              <a href="https://x.com/vite_js" target="_blank">
+              <a className="select-none" onClick={() => rendaPassiva(1, 1, 1, setThomas, setIdosas)} >
                 <svg
                   className="button-icon"
                   role="presentation"
@@ -112,11 +113,11 @@ function App() {
                 >
                   <use href="/icons.svg#x-icon"></use>
                 </svg>
-                X.com
+                Comprar idosa {idosas}
               </a>
             </li>
             <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
+              <a className="select-none" onClick={() => rendaPassiva(1, 2, 1, setThomas, setIdosas)}>
                 <svg
                   className="button-icon"
                   role="presentation"
@@ -124,7 +125,7 @@ function App() {
                 >
                   <use href="/icons.svg#bluesky-icon"></use>
                 </svg>
-                Bluesky
+                Comprar thomas {+thomas}
               </a>
             </li>
           </ul>
