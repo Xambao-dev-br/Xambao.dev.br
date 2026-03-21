@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
 import './App.css'
-import { mensagens} from './messages'
+import {mensagens} from './messages'
+import {calcular_prestigio, estadoPrestigio} from './prestigio'
 function App() {
-  const [count, setCount] = useState(0)
+  let [count, setCount] = useState(0)
 
   useEffect(() => {
     const handleKeyUp = (event: KeyboardEvent) => {
       if (event.code === 'Space') {
         event.preventDefault() 
-        setCount((prev) => prev + 1)
+        setCount((prev) => prev + +estadoPrestigio.level)
       } else if (event.code === 'Backspace') {
-        setCount((prev) => prev - 1)
+        setCount((prev) => prev - +estadoPrestigio.level)
       }
     }
 
@@ -24,6 +24,14 @@ function App() {
   }, [])
   const mensagemAtual = mensagens[Math.floor(count / 50) * 50];
 
+  function fazerPrestigio() {
+    if (+count >= +estadoPrestigio.custo){
+      calcular_prestigio();
+      setCount(0);
+      estadoPrestigio.level = (+estadoPrestigio.level + 1)
+      
+    }
+    }
   return (
     <>
       <section id="center">
@@ -38,7 +46,7 @@ function App() {
         <p className="text-3xl font-bold text-white">Aura</p>
         <button
           className="counter aspect-square w-32 flex items-center justify-center text-5xl"
-          onClick={() => setCount((count) => (count) + 1)}
+          onClick={() => setCount((count) => (count) + +estadoPrestigio.level)}
         >
         <div key={count} className="animacao-botao">
           {count}
@@ -46,7 +54,7 @@ function App() {
         </button>
         <p 
         key={mensagemAtual} 
-        className="animacao-texto mb-[24px] text-xl min-h-[26px] text-[#f0f0f0]"
+        className="animacao-texto text-xl min-h-[32px] text-[#f0f0f0]"
         > {mensagemAtual} </p>      
       </section>
       <div className="ticks"></div>
@@ -55,32 +63,24 @@ function App() {
           <svg className="icon" role="presentation" aria-hidden="true">
             <use href="/icons.svg#documentation-icon"></use>
           </svg>
-          <h2>Você tem aura</h2>
-          <p>fique feliz</p>
+          <h2>Prestigio</h2>
+          <p>Nivel de prestigio atual: {+estadoPrestigio.level}</p>
           <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
+              <a onClick={() => fazerPrestigio()}>
                 <img className="logo" src={viteLogo} alt="" />
-                NÃO clique, você perderá aura
+                Prestigio (Preço: {+estadoPrestigio.custo})
               </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Não grita
-              </a>
-            </li>
           </ul>
         </div>
         <div id="social">
           <svg className="icon" role="presentation" aria-hidden="true">
             <use href="/icons.svg#social-icon"></use>
           </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
+          <h2>Ferramentas de debugação</h2>
+          <p>Por que debugar é legal!</p>
           <ul>
             <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
+              <a className="select-none" onClick={() => setCount((count) => (count) + 50)}>
                 <svg
                   className="button-icon"
                   role="presentation"
@@ -88,11 +88,11 @@ function App() {
                 >
                   <use href="/icons.svg#github-icon"></use>
                 </svg>
-                GitHub
+                +50
               </a>
             </li>
             <li>
-              <a href="https://chat.vite.dev/" target="_blank">
+              <a className="select-none" onClick={() => setCount((count) => (count) - 50)}>
                 <svg
                   className="button-icon"
                   role="presentation"
@@ -100,7 +100,7 @@ function App() {
                 >
                   <use href="/icons.svg#discord-icon"></use>
                 </svg>
-                Discord
+                -50
               </a>
             </li>
             <li>
