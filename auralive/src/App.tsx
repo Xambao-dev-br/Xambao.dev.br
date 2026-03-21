@@ -79,7 +79,7 @@ function App() {
               </a>
           </ul>
         </div>
-        <div id="social">
+        <div className="social">
           <svg className="icon" role="presentation" aria-hidden="true">
             <use href="/icons.svg#social-icon"></use>
           </svg>
@@ -88,57 +88,43 @@ function App() {
           <ul>
             <li>
               <a className="select-none" onClick={() => setAura((count) => (count) + 50)}>
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
                 +50
               </a>
             </li>
             <li>
               <a className="select-none" onClick={() => setAura((count) => (count) - 50)}>
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
                 -50
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => rendaPassiva(1, 1, 1, setThomas, setIdosas, setAura, aura)} >
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                Comprar idosa {idosas} {Math.floor(+globalIdosas.custo + (+globalIdosas.mult * +globalIdosas.quantidade))}
+              <a className="select-none" onClick={() => setAura((count) => (count) + 1000)}>
+                +1000
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => rendaPassiva(1, 2, 1, setThomas, setIdosas, setAura, aura)}>
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Comprar thomas {thomas}
+              <a className="select-none" onClick={() => setAura((count) => (count) - 1000)}>
+                -1000
               </a>
+            </li>
+          </ul>
+          <ul>
+          <li>
+              <a className="select-none" onClick={() => rendaPassiva(1, 1, 1, setThomas, setIdosas, setAura, aura)} >
+                Comprar idosa <br /> Qtd: {idosas} Preço: {Math.floor(+globalIdosas.custo + (+globalIdosas.mult * +globalIdosas.quantidade))}
+              </a>
+            </li>
+            <li>
+              {thomas !== 1 && (
+              <a className="select-none botao-thomas" onClick={() => rendaPassiva(1, 2, 1, setThomas, setIdosas, setAura, aura)}>
+                Comprar thomas {thomas} </a>
+)}
             </li>
           </ul>
         </div>
       </section>
 
       <div className="ticks"></div>
+      
       <section id="spacer"></section>
     </>
   )

@@ -60,7 +60,7 @@ export function rendaPassiva(
                     }
                     break;
                 case 2: // 2 é thomas
-                    if (aura > +thomas.custo && +thomas.quantidade < 1) {
+                    if (aura >= +thomas.custo && +thomas.quantidade < 1) {
                         console.log("Thomas comprado por " + +thomas.custo)
                         setAura((prev: number) => prev - +thomas.custo)
                         thomas.quantidade = (+thomas.quantidade + 1)
