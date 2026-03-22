@@ -1,6 +1,7 @@
 export let estadoPrestigio: tresbagulho;
 export let idosas: tresbagulho;
 export let thomas: tresbagulho;
+export let tempo: number;
 export const sono = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 interface tresbagulho {
@@ -34,10 +35,14 @@ export function calcular_prestigio() {
     console.log("Depois de algoritmo: " + +estadoPrestigio.custo);
 };
 
+export function multiplicarGanho(multiplicador: number) {
+    console.log(multiplicador)
+    
+};
+
 // rp_comando pode ser 1 ou 2, sendo 1 = comprar, 2 = vender...
 // rp_quem pode ser 1 ou 2, sendo 1 = idosa, 2 = thomas
 // rp_quando só pode ser 1 por ora.
-
 
 export function rendaPassiva(
     rp_comando: number, 

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import viteLogo from './assets/vite.svg'
 import {mensagens} from './messages'
-import {calcular_prestigio, estadoPrestigio, rendaPassiva, idosas as globalIdosas} from './ferramentas'
+import {calcular_prestigio, estadoPrestigio, rendaPassiva, idosas as globalIdosas, tempo, multiplicarGanho} from './ferramentas'
+let apocar: number = 0;
 function App() {
   let [aura, setAura] = useState(0); let [thomas, setThomas] = useState(0); let [idosas, setIdosas] = useState(0);
   useEffect(() => {
@@ -117,6 +118,12 @@ function App() {
               {thomas !== 1 && (
               <a className="select-none botao-thomas" onClick={() => rendaPassiva(1, 2, 1, setThomas, setIdosas, setAura, aura)}>
                 Comprar thomas {thomas} </a>
+)}
+            </li>
+            <li>
+              {thomas == 1 && apocar == 1 && (
+              <a className="select-none botao-thomas" onClick={() => multiplicarGanho(2)}>
+                Colocar Thomas apocar {tempo} </a>
 )}
             </li>
           </ul>
