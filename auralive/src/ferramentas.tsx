@@ -1,13 +1,14 @@
 export let estadoPrestigio: tresbagulho;
 export let idosas: tresbagulho;
 export let thomas: tresbagulho;
+export let miojo: tresbagulho;
 export let tempo: number;
 export const sono = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 interface tresbagulho {
-    quantidade: Number;
-    custo: Number;
-    mult: Number;
+    quantidade: number;
+    custo: number;
+    mult: number;
 };
 
 estadoPrestigio = {
@@ -19,7 +20,7 @@ estadoPrestigio = {
 idosas = {
     quantidade: 0,
     custo: 100,
-    mult: 15
+    mult: 1.15
 };
 
 thomas = {
@@ -27,6 +28,12 @@ thomas = {
     custo: 10000,
     mult: 1
 };
+
+miojo = {
+    quantidade: 0,
+    custo: 10000,
+    mult: 1.15,
+}
 
 
 export function calcular_prestigio() {
@@ -48,31 +55,43 @@ export function rendaPassiva(
     rp_comando: number, 
     rp_quem: number, 
     rp_quanto: number,
+    aura: number,
+    setAura: any,
     setThomas: any,
     setIdosas: any,
-    setAura: any,
-    aura: number, ) {
+    setMiojo: any,
+     ) {
     switch (rp_comando) {
         case 1: //1 é compra que nem ta escrito ali encima
             switch (rp_quem) {
                 case 1: // 1 é idosa
-                    if (aura >= Math.floor(+idosas.custo + (+idosas.mult * +idosas.quantidade))) { 
-                        idosas.custo = Math.floor(+idosas.custo + (+idosas.mult * +idosas.quantidade))
-                        console.log("Preço idosa:" + +idosas.custo);
-                        setAura((prev: number) => prev - +idosas.custo);
-                        idosas.quantidade = (+idosas.quantidade + 1)
-                        setIdosas((v: number) => v + rp_quanto)
+                    const custoIdosa = Math.floor(idosas.custo);
+                    if (aura >= custoIdosa) {
+                        setAura((prev: number) => prev - custoIdosa); 
+                        idosas.custo = Math.floor(custoIdosa * idosas.mult)
+                        console.log("Preço idosa:" + idosas.custo);
+                        idosas.quantidade = (idosas.quantidade + 1)
+                        setIdosas((v: number) => v + 1)
                     }
                     break;
                 case 2: // 2 é thomas
-                    if (aura >= +thomas.custo && +thomas.quantidade < 1) {
-                        console.log("Thomas comprado por " + +thomas.custo)
-                        setAura((prev: number) => prev - +thomas.custo)
-                        thomas.quantidade = (+thomas.quantidade + 1)
+                    if (aura >= thomas.custo) {
+                        setAura((prev: number) => prev - thomas.custo)
+                        console.log("Thomas comprado por " + thomas.custo)
+                        thomas.quantidade = (thomas.quantidade + 1)
                         setThomas((v: number) => v + 1)
 
                     }
-
+                    break;
+                case 3: // 3 é miojo
+                    const custoMiojo = Math.floor(miojo.custo);
+                    if (aura >= custoMiojo) {
+                        setAura((prev: number) => prev - custoMiojo); 
+                        miojo.custo = Math.floor(custoMiojo * miojo.mult)
+                        console.log("Preço miojo:" + miojo.custo);
+                        miojo.quantidade = (miojo.quantidade + 1)
+                        setMiojo((v: number) => v + 1)
+                    }
                     break;
                 default:
                     return;
