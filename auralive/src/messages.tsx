@@ -1,5 +1,5 @@
 const mensagens: Record<number, string> = {
-    0: "Você é o maior beta de todos",
+    0: "Você é apocar.",
     50: "Você é um beta enorme",
     100: "Você deveria farmar mais aura.",
     150: "Sem aura, você nunca será xambão.",
@@ -9,6 +9,16 @@ const mensagens: Record<number, string> = {
     350: "Após moggar varios betas, você começou a sentir a aura",
     400: "Você acordou como um alfa. Meus parabéns.",
     450: "Você sonha de ser xambão. Você ainda tem muito a que fazer até lá.",
-    500: "Você assistiu Sexta-Feira PlayTV com seus cupinxas"
+    500: "Você assistiu Sexta-Feira PlayTV com seus cupinxas",
+    550: "Você quer muito parar de ser apocar. Que pena.",
+    600: "O poder do Sexta-Feira PlayTV está te mudando lentamente.",
+    650: "Sexta-Feira, PlayTV, nós tá como, no recolhe, ai caralho",
+    700: "Segundo o Artur, sua aura está xoxotonix (ou algo assim)",
+    750: "Você escutou Nickelback ao contrário para ganhar aura",
+    800: "Você salvou um cachorrinho leproso e agora ele está bem",
+    850: "Você virou voluntário em São Borja",
+    900: "Você se alistou ao exercito em Jericoacoara (CE)",
+    950: "Você foi aceito, mas como não tinha ninguém, você saiu.",
+    1000: "Você agora é lesado.",
 };
 export {mensagens}
