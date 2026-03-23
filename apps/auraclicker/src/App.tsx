@@ -3,7 +3,8 @@ import './App.css'
 import Whatsapp from './assets/whatsapp.jpg'
 import {mensagens} from './messages'
 import {calcular_prestigio, estadoPrestigio, rendaPassiva, idosas as globalIdosas, tempo, multiplicarGanho, miojo as globalMiojo} from './ferramentas'
-let apocar: number = 0;
+let apocar: boolean = false;
+let debug: boolean = false;
 function App() {
   let [aura, setAura] = useState(0); 
   let [thomas, setThomas] = useState(0); 
@@ -14,7 +15,7 @@ function App() {
       if (event.code === 'Space') {
         event.preventDefault() 
         setAura((prev) => prev + +estadoPrestigio.quantidade)
-      } else if (event.code === 'Backspace') {
+      } else if (event.code === 'Backspace' && debug == true) {
         setAura((prev) => prev - +estadoPrestigio.quantidade)
       }
     }
@@ -44,7 +45,7 @@ function App() {
       globalIdosas.quantidade = 0;
       globalIdosas.custo = 100;
       globalMiojo.quantidade = 0;
-      globalMiojo.custo = 10000;
+      globalMiojo.custo = 600;
       estadoPrestigio.quantidade = (+estadoPrestigio.quantidade + 1)
       
     }
@@ -91,8 +92,9 @@ function App() {
           <svg className="icon" role="presentation" aria-hidden="true">
             <use href="/icons.svg#social-icon"></use>
           </svg>
-          <h2>Ferramentas de debugação</h2>
-          <p>Por que debugar é legal!</p>
+          <h2>Loja</h2>
+          <p>Compre idosas e miojo!!!</p>
+          {debug == true && ( 
           <ul>
             <li>
               <a className="select-none" onClick={() => setAura((count) => (count) + 50)}>
@@ -114,7 +116,7 @@ function App() {
                 -1000
               </a>
             </li>
-          </ul>
+          </ul> )}
           <ul>
           <li>
               <a className="select-none" onClick={() => rendaPassiva(1, 1, 1, aura, setAura, setThomas, setIdosas, setMiojo)} >
@@ -127,12 +129,12 @@ function App() {
               </a> 
             </li>
             <li>
-              {thomas !== 1 && (
+              {thomas !== 1 && apocar == true && (
               <a className="select-none botao-thomas" onClick={() => rendaPassiva(1, 2, 1, aura, setAura, setThomas, setIdosas, setMiojo)}>
                 Comprar thomas {thomas} </a> )}
             </li>
             <li>
-              {thomas == 1 && apocar == 1 && (
+              {thomas == 1 && apocar == true && (
               <a className="select-none botao-thomas" onClick={() => multiplicarGanho(2)}>
                 Colocar Thomas apocar {tempo} </a> )}
             </li>

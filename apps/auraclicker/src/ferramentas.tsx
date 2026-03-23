@@ -31,8 +31,8 @@ thomas = {
 
 miojo = {
     quantidade: 0,
-    custo: 10000,
-    mult: 1.15,
+    custo: 600,
+    mult: 1.10,
 }
 
 
