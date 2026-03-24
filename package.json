@@ -1,5 +1,5 @@
 {
-  "name": "PWI",
+  "name": "xambao-dev-br",
   "private": true,
   "scripts": {
     "build": "turbo run build",

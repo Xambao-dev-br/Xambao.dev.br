@@ -3,8 +3,8 @@ import './App.css'
 import Whatsapp from './assets/whatsapp.jpg'
 import {mensagens} from './messages'
 import {calcular_prestigio, estadoPrestigio, rendaPassiva, idosas as globalIdosas, tempo, multiplicarGanho, miojo as globalMiojo} from './ferramentas'
-let apocar: boolean = false;
-let debug: boolean = false;
+let apocar: boolean = false; // ativa o thomas
+let debug: boolean = false; // ativa o debug, +50, -50...
 function App() {
   let [aura, setAura] = useState(0); 
   let [thomas, setThomas] = useState(0); 
@@ -23,9 +23,7 @@ function App() {
 
     let rendaPassivaTimer: number = setInterval(() => {
       let ganho: number = (+globalIdosas.quantidade + (5 * +globalMiojo.quantidade))
-      if (ganho > 0) {
         setAura(prev => prev + ganho)
-      }
     }, 1000);
 
     return () => {
@@ -37,7 +35,7 @@ function App() {
   const mensagemAtual = mensagens[Math.floor(aura / 50) * 50];
 
   function fazerPrestigio() {
-    if (+aura >= +estadoPrestigio.custo){
+    if (aura >= estadoPrestigio.custo){
       calcular_prestigio();
       setAura(0);
       setIdosas(0);
@@ -50,19 +48,20 @@ function App() {
       
     }
     }
+
   return (
     <>
       <section id="center">
         <div className="hero">
-          <img className="mt-[20px] w-40 h-40" src={Whatsapp} />
+          <img className="mt-[20px] mb-[20px] w-40 h-40" src={Whatsapp} />
         </div>
         <div>
-          <h1 className="" >AuraClicker</h1>
+          <h1>AuraClicker</h1>
           <p>AuraClicker é um jogo sobre clicar pra ganhar aura</p>
         </div>
         <p className="text-3xl font-bold text-white auratext">Aura</p>
         <button
-          className="counter aspect-square w-32 flex items-center justify-center text-5xl"
+          className="counter aspect-square w-40 flex items-center justify-center text-4xl"
           onClick={() => setAura((count) => (count) + +estadoPrestigio.quantidade)}
         >
         <div key={aura} className="animacao-botao">
@@ -70,7 +69,6 @@ function App() {
         </div>
         </button>
         <p 
-        key={mensagemAtual} 
         className="animacao-texto text-xl min-h-[32px] text-[#f0f0f0]"
         > {mensagemAtual} </p>      
       </section>

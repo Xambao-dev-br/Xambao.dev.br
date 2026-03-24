@@ -38,18 +38,17 @@ miojo = {
 
 export function calcular_prestigio() {
     console.log("Antes de algoritmo: " + +estadoPrestigio.custo);
-    estadoPrestigio.custo = Math.floor(+estadoPrestigio.custo * +estadoPrestigio.mult);
+    estadoPrestigio.custo = Math.floor(estadoPrestigio.custo * estadoPrestigio.mult);
     console.log("Depois de algoritmo: " + +estadoPrestigio.custo);
 };
 
 export function multiplicarGanho(multiplicador: number) {
-    console.log(multiplicador)
-    
+    console.log(multiplicador)  
 };
 
 // rp_comando pode ser 1 ou 2, sendo 1 = comprar, 2 = vender...
-// rp_quem pode ser 1 ou 2, sendo 1 = idosa, 2 = thomas
-// rp_quando só pode ser 1 por ora.
+// rp_quem pode ser 1,2 ou 3, sendo 1 = idosa, 2 = thomas e 3 miojo.
+// rp_quanto só pode ser 1 por ora.
 
 export function rendaPassiva(
     rp_comando: number, 
@@ -65,7 +64,7 @@ export function rendaPassiva(
         case 1: //1 é compra que nem ta escrito ali encima
             switch (rp_quem) {
                 case 1: // 1 é idosa
-                    const custoIdosa = Math.floor(idosas.custo);
+                    let custoIdosa: number = Math.floor(idosas.custo);
                     if (aura >= custoIdosa) {
                         setAura((prev: number) => prev - custoIdosa); 
                         idosas.custo = Math.floor(custoIdosa * idosas.mult)
@@ -80,7 +79,6 @@ export function rendaPassiva(
                         console.log("Thomas comprado por " + thomas.custo)
                         thomas.quantidade = (thomas.quantidade + 1)
                         setThomas((v: number) => v + 1)
-
                     }
                     break;
                 case 3: // 3 é miojo
