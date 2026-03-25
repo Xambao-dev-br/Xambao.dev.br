@@ -21,4 +21,4 @@ const mensagens: Record<number, string> = {
     950: "Você foi aceito, mas como não tinha ninguém, você saiu.",
     1000: "Você agora é lesado.",
 };
-export {mensagens}
+export {mensagens};

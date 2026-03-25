@@ -1,53 +1,45 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-import Whatsapp from './assets/whatsapp.jpg'
-import {mensagens} from './messages'
-import {calcular_prestigio, estadoPrestigio, rendaPassiva, idosas as globalIdosas, tempo, multiplicarGanho, miojo as globalMiojo} from './ferramentas'
-let apocar: boolean = false; // ativa o thomas
-let debug: boolean = false; // ativa o debug, +50, -50...
-function App() {
-  let [aura, setAura] = useState(0); 
-  let [thomas, setThomas] = useState(0); 
-  let [idosas, setIdosas] = useState(0);
-  let [miojo, setMiojo] = useState(0);
-  useEffect(() => {
-    const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.code === 'Space') {
-        event.preventDefault() 
-        setAura((prev) => prev + +estadoPrestigio.quantidade)
-      } else if (event.code === 'Backspace' && debug == true) {
-        setAura((prev) => prev - +estadoPrestigio.quantidade)
-      }
-    }
-    window.addEventListener('keyup', handleKeyUp)
+import { useEffect } from 'react';
+import './App.css';
+import Whatsapp from './assets/whatsapp.jpg';
+import {mensagens} from './messages';
+import { useGameStore } from './store/useGameStore';
+import { useShallow } from 'zustand/react/shallow';
 
-    let rendaPassivaTimer: number = setInterval(() => {
-      let ganho: number = (+globalIdosas.quantidade + (5 * +globalMiojo.quantidade))
-        setAura(prev => prev + ganho)
-    }, 1000);
-
-    return () => {
-      window.removeEventListener('keyup', handleKeyUp)
-      clearInterval(rendaPassivaTimer);
-      }
-  }, [globalIdosas.quantidade]); 
-
+export default function App() {
+  const { aura, addAura} = useGameStore(
+    useShallow((state) => ({aura: state.aura, addAura: state.addAura})));
+  const { prestigioQuantidade, prestigioCusto, fazerPrestigio} = useGameStore(
+    useShallow((state) => ({prestigioQuantidade: state.prestigioQuantidade, prestigioCusto: state.prestigioCusto, fazerPrestigio: state.fazerPrestigio})));
+  const { idosasQuantidade, idosasCusto, idosasComprar } = useGameStore(
+    useShallow((state) => ({idosasQuantidade: state.idosasQuantidade, idosasCusto: state.idosasCusto, idosasComprar: state.idosasComprar})));
+  const { thomasQuantidade, thomasCusto, thomasComprar } = useGameStore(
+    useShallow((state) => ({thomasQuantidade: state.thomasQuantidade, thomasCusto: state.thomasCusto, thomasComprar: state.thomasComprar})));
+  const { miojosQuantidade, miojosCusto, miojosComprar } = useGameStore(
+    useShallow((state) => ({miojosQuantidade: state.miojosQuantidade, miojosCusto: state.miojosCusto, miojosComprar: state.miojosComprar})));
   const mensagemAtual = mensagens[Math.floor(aura / 50) * 50];
+  const apocar: boolean = false;
+  const debug: boolean = false;
+    useEffect(() => {
+      const handleKeyUp = (event: KeyboardEvent) => {
+        if (event.code === 'Space') {
+          event.preventDefault();
+          addAura(prestigioQuantidade);
+        } else if (event.code === 'Backspace' && debug) {
+          addAura(prestigioCusto);
+        }
+      };
+      window.addEventListener('keyup', handleKeyUp);
 
-  function fazerPrestigio() {
-    if (aura >= estadoPrestigio.custo){
-      calcular_prestigio();
-      setAura(0);
-      setIdosas(0);
-      setMiojo(0)
-      globalIdosas.quantidade = 0;
-      globalIdosas.custo = 100;
-      globalMiojo.quantidade = 0;
-      globalMiojo.custo = 600;
-      estadoPrestigio.quantidade = (+estadoPrestigio.quantidade + 1)
-      
-    }
-    }
+      const rendaPassivaTimer: number = setInterval(() => {
+        const ganho: number = (idosasQuantidade + (5 * miojosQuantidade));
+          addAura(ganho);
+      }, 1000);
+
+      return () => {
+        window.removeEventListener('keyup', handleKeyUp);
+        clearInterval(rendaPassivaTimer);
+        };
+    },); 
 
   return (
     <>
@@ -62,14 +54,14 @@ function App() {
         <p className="text-3xl font-bold text-white auratext">Aura</p>
         <button
           className="counter aspect-square w-40 flex items-center justify-center text-4xl"
-          onClick={() => setAura((count) => (count) + +estadoPrestigio.quantidade)}
+          onClick={() => addAura(prestigioQuantidade)}
         >
         <div key={aura} className="animacao-botao">
           {aura}
         </div>
         </button>
-        <p 
-        className="animacao-texto text-xl min-h-[32px] text-[#f0f0f0]"
+        <p key={mensagemAtual}
+        className="animacao-texto text-xl min-h-[32px]"
         > {mensagemAtual} </p>      
       </section>
       <div className="ticks"></div>
@@ -79,10 +71,10 @@ function App() {
             <use href="/icons.svg#documentation-icon"></use>
           </svg>
           <h2>Prestigio</h2>
-          <p>Nivel de prestigio atual: {+estadoPrestigio.quantidade}</p>
+          <p>Nivel de prestigio atual: {prestigioQuantidade}</p>
           <ul>
               <a onClick={() => fazerPrestigio()}>
-                Prestigio (Preço: {+estadoPrestigio.custo})
+                Prestigio (Preço: {prestigioCusto})
               </a>
           </ul>
         </div>
@@ -92,49 +84,49 @@ function App() {
           </svg>
           <h2>Loja</h2>
           <p>Compre idosas e miojo!!!</p>
-          {debug == true && ( 
+          {debug && ( 
           <ul>
             <li>
-              <a className="select-none" onClick={() => setAura((count) => (count) + 50)}>
+              <a className="select-none" onClick={() => addAura(50)}>
                 +50
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => setAura((count) => (count) - 50)}>
+              <a className="select-none" onClick={() => addAura(50)}>
                 -50
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => setAura((count) => (count) + 1000)}>
+              <a className="select-none" onClick={() => addAura(1000)}>
                 +1000
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => setAura((count) => (count) - 1000)}>
+              <a className="select-none" onClick={() => addAura(1000)}>
                 -1000
               </a>
             </li>
           </ul> )}
           <ul>
           <li>
-              <a className="select-none" onClick={() => rendaPassiva(1, 1, 1, aura, setAura, setThomas, setIdosas, setMiojo)} >
-                Comprar idosa <br /> Qtd: {idosas} Preço: {Math.floor(+globalIdosas.custo + (+globalIdosas.mult * +globalIdosas.quantidade))}
+              <a className="select-none" onClick={() => idosasComprar()} >
+                Comprar idosa <br /> Qtd: {idosasQuantidade} Preço: {idosasCusto}
               </a>
             </li> 
             <li>
-              <a className="select-none" onClick={() => rendaPassiva(1, 3, 1, aura, setAura, setThomas, setIdosas, setMiojo)} >
-                Comprar miojo <br /> Qtd: {miojo} Preço: {Math.floor(+globalMiojo.custo + (+globalMiojo.mult * +globalMiojo.quantidade))}
+              <a className="select-none" onClick={() => miojosComprar()} >
+                Comprar miojo <br /> Qtd: {miojosQuantidade} Preço: {miojosCusto}
               </a> 
             </li>
             <li>
-              {thomas !== 1 && apocar == true && (
-              <a className="select-none botao-thomas" onClick={() => rendaPassiva(1, 2, 1, aura, setAura, setThomas, setIdosas, setMiojo)}>
-                Comprar thomas {thomas} </a> )}
+              {thomasQuantidade < 1 && apocar && (
+              <a className="select-none botao-thomas" onClick={() => thomasComprar()}>
+                Comprar thomas {thomasCusto} </a> )}
             </li>
             <li>
-              {thomas == 1 && apocar == true && (
-              <a className="select-none botao-thomas" onClick={() => multiplicarGanho(2)}>
-                Colocar Thomas apocar {tempo} </a> )}
+              {thomasQuantidade < 1 && apocar && (
+              <a className="select-none botao-thomas" onClick={() => console.log("Porra nenhuma ainda")}>
+                Colocar Thomas apocar </a> )}
             </li>
           </ul>
         </div>
@@ -144,7 +136,5 @@ function App() {
       
       <section id="spacer"></section>
     </>
-  )
-}
-
-export default App
+  );
+};
