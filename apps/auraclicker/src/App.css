@@ -45,8 +45,11 @@
   place-content: center;
   place-items: center;
   flex-grow: 1;
+  @media (max-width: 1024px) {
+    padding: 24px 20px 24px;
+    gap: 18px;
   }
-
+}
 #next-steps {
   display: flex;
   border-top: 1px solid var(--border);
@@ -64,6 +67,11 @@
     margin-bottom: 16px;
     width: 32px;
     height: 32px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
   }
 }
 
@@ -98,6 +106,21 @@
       height: 18px;
       width: 18px;
     }
+    @media (max-width: 1024px) {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      flex: 1 1 calc(50% - 8px);
+    }
+
+    a {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+  }
   }
 }
 
