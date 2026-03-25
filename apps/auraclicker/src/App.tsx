@@ -29,7 +29,10 @@ export default function App() {
         }
       };
       window.addEventListener('keyup', handleKeyUp);
-
+      const hue: number = (aura * 2) % 360;
+      document.documentElement.style.setProperty('--accent', `hsl(${hue}, 100%, 61%)`);
+      document.documentElement.style.setProperty('--accent-bg', `hsl(${hue}, 100%, 61%, 0.1)`);
+      document.documentElement.style.setProperty('--accent-border', `hsl(${hue}, 100%, 61%, 0.5)`);
       const rendaPassivaTimer: number = setInterval(() => {
         const ganho: number = (idosasQuantidade + (5 * miojosQuantidade));
           addAura(ganho);
@@ -39,7 +42,7 @@ export default function App() {
         window.removeEventListener('keyup', handleKeyUp);
         clearInterval(rendaPassivaTimer);
         };
-    },); 
+    }, [aura, addAura, debug, idosasQuantidade, miojosQuantidade, prestigioQuantidade, prestigioCusto]); 
 
   return (
     <>
