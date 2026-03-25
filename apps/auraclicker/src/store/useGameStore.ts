@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 interface doisvalores {
     custoBase: number,
     mult: number,
@@ -25,7 +26,7 @@ interface GameState {
   miojosComprar: () => void;
   fazerPrestigio: () => void;
 }
-export const useGameStore = create<GameState>()((set, get) => ({
+export const useGameStore = create<GameState>()(persist((set, get) => ({
   aura: 0,
   prestigioQuantidade: 1,
   prestigioCusto: loja.prestigio.custoBase,
@@ -80,4 +81,5 @@ export const useGameStore = create<GameState>()((set, get) => ({
       miojosCusto: loja.miojos.custoBase,
     }));
   },
-}));
+} 
+), { name: 'auraclicker-storage'} ));
