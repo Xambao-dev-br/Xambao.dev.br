@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import './App.css';
 import Whatsapp from './assets/whatsapp.jpg';
 import {mensagens} from './messages';
@@ -6,8 +6,8 @@ import { useGameStore } from './store/useGameStore';
 import { useShallow } from 'zustand/react/shallow';
 
 export default function App() {
-  const { aura, addAura} = useGameStore(
-    useShallow((state) => ({aura: state.aura, addAura: state.addAura})));
+  const { aura, addAura, recalcular} = useGameStore(
+    useShallow((state) => ({aura: state.aura, addAura: state.addAura, recalcular: state.recalcular})));
   const { prestigioQuantidade, prestigioCusto, fazerPrestigio} = useGameStore(
     useShallow((state) => ({prestigioQuantidade: state.prestigioQuantidade, prestigioCusto: state.prestigioCusto, fazerPrestigio: state.fazerPrestigio})));
   const { idosasQuantidade, idosasCusto, idosasComprar } = useGameStore(
@@ -17,15 +17,28 @@ export default function App() {
   const { miojosQuantidade, miojosCusto, miojosComprar } = useGameStore(
     useShallow((state) => ({miojosQuantidade: state.miojosQuantidade, miojosCusto: state.miojosCusto, miojosComprar: state.miojosComprar})));
   const mensagemAtual = mensagens[Math.floor(aura / 50) * 50];
+  const debug: boolean = true;
   const apocar: boolean = false;
-  const debug: boolean = false;
+  const handleClick = useCallback(() => {
+    const critico = Math.random() < 0.025;
+    addAura(critico ? Math.round(aura * 0.5) : prestigioQuantidade);
+    const maisUm = document.createElement('p');
+    maisUm.textContent = critico ? 'CRITICO' : `+${prestigioQuantidade}`;
+    maisUm.classList.add("animacaotois");
+    maisUm.addEventListener('animationend', () => {
+      maisUm.remove(); });
+    const counter = document.getElementById('counter');
+    if (counter) {
+      counter.appendChild(maisUm);
+}
+  }, [aura, addAura, prestigioQuantidade]);
     useEffect(() => {
       const handleKeyUp = (event: KeyboardEvent) => {
         if (event.code === 'Space') {
           event.preventDefault();
-          addAura(prestigioQuantidade);
+          handleClick();
         } else if (event.code === 'Backspace' && debug) {
-          addAura(prestigioCusto);
+          addAura(-1);
         }
       };
       window.addEventListener('keyup', handleKeyUp);
@@ -33,16 +46,19 @@ export default function App() {
       document.documentElement.style.setProperty('--accent', `hsl(${hue}, 100%, 61%)`);
       document.documentElement.style.setProperty('--accent-bg', `hsl(${hue}, 100%, 61%, 0.1)`);
       document.documentElement.style.setProperty('--accent-border', `hsl(${hue}, 100%, 61%, 0.5)`);
+      const ganho = idosasQuantidade + (5 * miojosQuantidade);
+      const intervalo = ganho > 0 ? 1000 / ganho : 1000;
       const rendaPassivaTimer: number = setInterval(() => {
-        const ganho: number = (idosasQuantidade + (5 * miojosQuantidade));
+        //const ganho: number = (idosasQuantidade + (5 * miojosQuantidade));
           addAura(ganho);
-      }, 1000);
+          recalcular();
+      }, intervalo);
 
       return () => {
         window.removeEventListener('keyup', handleKeyUp);
         clearInterval(rendaPassivaTimer);
         };
-    }, [aura, addAura, debug, idosasQuantidade, miojosQuantidade, prestigioQuantidade, prestigioCusto]); 
+    }, [aura, addAura, debug, idosasQuantidade, miojosQuantidade, prestigioQuantidade, prestigioCusto, recalcular, handleClick]); 
 
   return (
     <>
@@ -55,9 +71,9 @@ export default function App() {
           <p>AuraClicker é um jogo sobre clicar pra ganhar aura</p>
         </div>
         <p className="text-3xl font-bold text-white auratext">Aura</p>
-        <button
+        <button id="counter"
           className="counter aspect-square w-40 flex items-center justify-center text-4xl"
-          onClick={() => addAura(prestigioQuantidade)}
+          onClick={handleClick}
         >
         <div key={aura} className="animacao-botao">
           {aura}
@@ -95,7 +111,7 @@ export default function App() {
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => addAura(50)}>
+              <a className="select-none" onClick={() => addAura(-50)}>
                 -50
               </a>
             </li>
@@ -105,7 +121,7 @@ export default function App() {
               </a>
             </li>
             <li>
-              <a className="select-none" onClick={() => addAura(1000)}>
+              <a className="select-none" onClick={() => addAura(-1000)}>
                 -1000
               </a>
             </li>

@@ -11,6 +11,22 @@
   }
 }
 
+@keyframes maisUm {
+  from {
+    opacity: 1;
+    transform: translateY(-32px);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-128px);
+  }
+}
+
+.animacaotois {
+  position: absolute;
+  animation: maisUm 1s ease-out forwards;
+}
+
 .counter {
   padding: 16px 16px;
   border-radius: 32px;
@@ -32,10 +48,6 @@
 
 .animacao-texto {
   animation: entrarSuave 1s ease-out forwards;
-}
-
-.animacao-botao {
-  animation: entrarSuave 0.075s ease-out forwards;
 }
 
 #center {

@@ -1,0 +1,13 @@
+M = Morre (função roletaRussa)
+I = Imortal (Não morre, obviamente, por que esse é o unico significado da palavra imortal)
+C = Compra Unica (Só pode ter um, e ele só faz uma coisa especifica, invés de rendaPassiva.)
+
+M Idosas
+I Miojo
+C Thomas
+M Macacoide
+I Mutuca
+C Jean
+M Programador
+I Vidraceiro
+C Ricardao

@@ -7,9 +7,10 @@ interface doisvalores {
 const loja = {
     prestigio: {custoBase: 1000, mult: 1.15},
     idosas: { custoBase: 100, mult: 1.15},
-    thomas: { custoBase: 10000, mult: 1},
     miojos: { custoBase: 600, mult: 1.10},
+    thomas: { custoBase: 10000, mult: 1},
 } satisfies Record<string, doisvalores>;
+
 interface GameState {
   aura: number;
   prestigioQuantidade: number;
@@ -25,6 +26,7 @@ interface GameState {
   thomasComprar: () => void;
   miojosComprar: () => void;
   fazerPrestigio: () => void;
+  recalcular: () => void;
 }
 export const useGameStore = create<GameState>()(persist((set, get) => ({
   aura: 0,
@@ -32,22 +34,12 @@ export const useGameStore = create<GameState>()(persist((set, get) => ({
   prestigioCusto: loja.prestigio.custoBase,
   idosasQuantidade: 0,
   idosasCusto: loja.idosas.custoBase,
-  thomasQuantidade: 0,
-  thomasCusto: loja.thomas.custoBase,
   miojosQuantidade: 0,
   miojosCusto: loja.miojos.custoBase,
+  thomasQuantidade: 0,
+  thomasCusto: loja.thomas.custoBase,
   addAura: (quantidade) =>
     set((state) => ({ aura: state.aura + quantidade })),
-
-  thomasComprar: () => {
-    const { aura, thomasCusto } = get();
-    if (aura < thomasCusto) return;
-    set((state) => ({
-      aura: state.aura - thomasCusto,
-      thomasQuantidade: state.thomasQuantidade + 1,
-      thomasCusto: Math.floor(thomasCusto * loja.thomas.mult),
-    }));
-  },
   idosasComprar: () => {
     const { aura, idosasCusto } = get();
     if (aura < idosasCusto) return;
@@ -66,6 +58,15 @@ export const useGameStore = create<GameState>()(persist((set, get) => ({
       miojosCusto: Math.floor(miojosCusto * loja.miojos.mult),
     }));
   },
+  thomasComprar: () => {
+    const { aura, thomasCusto } = get();
+    if (aura < thomasCusto) return;
+    set((state) => ({
+      aura: state.aura - thomasCusto,
+      thomasQuantidade: state.thomasQuantidade + 1,
+      thomasCusto: Math.floor(thomasCusto * loja.thomas.mult),
+    }));
+  },
   fazerPrestigio: () => {
     const { aura, prestigioCusto } = get();
     if (aura < prestigioCusto) return;
@@ -81,5 +82,12 @@ export const useGameStore = create<GameState>()(persist((set, get) => ({
       miojosCusto: loja.miojos.custoBase,
     }));
   },
+  recalcular: () => {
+    set((state) => ({
+      idosasCusto: Math.floor((loja.idosas.custoBase * (loja.idosas.mult**state.idosasQuantidade))),
+      miojosCusto: Math.floor((loja.miojos.custoBase * (loja.miojos.mult**state.miojosQuantidade))),
+      thomasCusto: Math.floor((loja.thomas.custoBase * (loja.thomas.mult**state.thomasQuantidade))),
+    }));
+  }
 } 
 ), { name: 'auraclicker-storage'} ));
