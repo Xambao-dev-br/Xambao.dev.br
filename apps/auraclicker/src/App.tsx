@@ -41,7 +41,13 @@ export default function App() {
           addAura(-1);
         }
       };
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.code === "Enter") {
+          event.preventDefault()
+        }
+      }
       window.addEventListener('keyup', handleKeyUp);
+      window.addEventListener('keydown', handleKeyDown);
       const hue: number = (aura * 2) % 360;
       document.documentElement.style.setProperty('--accent', `hsl(${hue}, 100%, 61%)`);
       document.documentElement.style.setProperty('--accent-bg', `hsl(${hue}, 100%, 61%, 0.1)`);
@@ -50,7 +56,7 @@ export default function App() {
       const intervalo = ganho > 0 ? 1000 / ganho : 1000;
       const rendaPassivaTimer: number = setInterval(() => {
         //const ganho: number = (idosasQuantidade + (5 * miojosQuantidade));
-          addAura(ganho);
+          addAura(ganho > 0 ? 1 : 0);
           recalcular();
       }, intervalo);
 
