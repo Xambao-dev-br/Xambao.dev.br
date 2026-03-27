@@ -26,7 +26,6 @@ interface GameState {
   thomasComprar: () => void;
   miojosComprar: () => void;
   fazerPrestigio: () => void;
-  recalcular: () => void;
 }
 export const useGameStore = create<GameState>()(persist((set, get) => ({
   aura: 0,
@@ -46,7 +45,7 @@ export const useGameStore = create<GameState>()(persist((set, get) => ({
     set((state) => ({
       aura: state.aura - idosasCusto,
       idosasQuantidade: state.idosasQuantidade + 1,
-      idosasCusto: Math.floor(idosasCusto * loja.idosas.mult),
+      idosasCusto: Math.floor((loja.idosas.custoBase * (loja.idosas.mult**(get().idosasQuantidade+1)))),
     }));
   },
   miojosComprar: () => {
@@ -55,7 +54,7 @@ export const useGameStore = create<GameState>()(persist((set, get) => ({
     set((state) => ({
       aura: state.aura - miojosCusto,
       miojosQuantidade: state.miojosQuantidade + 1,
-      miojosCusto: Math.floor(miojosCusto * loja.miojos.mult),
+      miojosCusto: Math.floor((loja.miojos.custoBase * (loja.miojos.mult**(get().miojosQuantidade+1)))),
     }));
   },
   thomasComprar: () => {
@@ -64,7 +63,7 @@ export const useGameStore = create<GameState>()(persist((set, get) => ({
     set((state) => ({
       aura: state.aura - thomasCusto,
       thomasQuantidade: state.thomasQuantidade + 1,
-      thomasCusto: Math.floor(thomasCusto * loja.thomas.mult),
+      thomasCusto: Math.floor((loja.thomas.custoBase * (loja.thomas.mult**(get().thomasQuantidade+1)))),
     }));
   },
   fazerPrestigio: () => {
@@ -80,13 +79,6 @@ export const useGameStore = create<GameState>()(persist((set, get) => ({
       idosasCusto: loja.idosas.custoBase,
       thomasCusto: loja.thomas.custoBase,
       miojosCusto: loja.miojos.custoBase,
-    }));
-  },
-  recalcular: () => {
-    set((state) => ({
-      idosasCusto: Math.floor((loja.idosas.custoBase * (loja.idosas.mult**state.idosasQuantidade))),
-      miojosCusto: Math.floor((loja.miojos.custoBase * (loja.miojos.mult**state.miojosQuantidade))),
-      thomasCusto: Math.floor((loja.thomas.custoBase * (loja.thomas.mult**state.thomasQuantidade))),
     }));
   }
 } 
