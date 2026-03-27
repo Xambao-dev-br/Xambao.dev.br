@@ -45,6 +45,8 @@
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.code === "Enter") {
           event.preventDefault()
+        } else if (event.code === "NumpadEnter") {
+          event.preventDefault()
         }
       }
       window.addEventListener('keyup', handleKeyUp);
