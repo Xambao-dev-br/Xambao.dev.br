@@ -17,7 +17,7 @@
     const { miojosQuantidade, miojosCusto, miojosComprar } = useGameStore(
       useShallow((state) => ({miojosQuantidade: state.miojosQuantidade, miojosCusto: state.miojosCusto, miojosComprar: state.miojosComprar})));
     const mensagemAtual = mensagens[Math.floor(aura / 50) * 50];
-    const debug: boolean = true;
+    const debug: boolean = false;
     const apocar: boolean = false;
     const handleClick = useCallback(() => {
       const critico = Math.random() < 0.025;
