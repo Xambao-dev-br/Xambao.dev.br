@@ -20,10 +20,9 @@
     const debug: boolean = false;
     const apocar: boolean = false;
     const handleClick = useCallback(() => {
-      const critico = Math.random() < 0.025;
-      addAura(critico ? Math.round(aura * 0.1) : prestigioQuantidade);
+      addAura(prestigioQuantidade);
       const maisUm = document.createElement('p');
-      maisUm.textContent = critico ? 'CRITICO' : `+${prestigioQuantidade}`;
+      maisUm.textContent = `+${prestigioQuantidade}`;
       maisUm.classList.add("animacaotois");
       maisUm.addEventListener('animationend', () => {
         maisUm.remove(); });
