@@ -21,7 +21,7 @@
     const apocar: boolean = false;
     const handleClick = useCallback(() => {
       const critico = Math.random() < 0.025;
-      addAura(critico ? Math.round(aura * 0.5) : prestigioQuantidade);
+      addAura(critico ? Math.round(aura * 0.1) : prestigioQuantidade);
       const maisUm = document.createElement('p');
       maisUm.textContent = critico ? 'CRITICO' : `+${prestigioQuantidade}`;
       maisUm.classList.add("animacaotois");
