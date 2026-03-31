@@ -8,6 +8,6 @@ C Thomas
 M Macacoide
 I Mutuca
 C Jean
-M Programador
-I Vidraceiro
+M Banana
+I Fita VHS
 C Ricardao
